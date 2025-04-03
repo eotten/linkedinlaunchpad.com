@@ -9,6 +9,11 @@ html {
     width: 100%;
     position: relative;
     overflow-x: hidden;
+    max-width: 100vw;
+}
+
+svg {
+    max-width: 100vw;
 }
 
 @keyframes animatedgradient {
@@ -28,6 +33,8 @@ body {
     color: #332C5C;
     scroll-behavior: smooth;
     overflow-x: hidden;
+    max-width: 100vw;
+    width: 100%;
 }
 
 h1, h2, h3, h4, h5, h6, 
@@ -278,7 +285,7 @@ div.laurel {
 
     .fixed-header {
         width: 100%;
-        padding: 1rem;
+        padding: 0.5rem;
         box-sizing: border-box;
     }
 
@@ -288,23 +295,21 @@ div.laurel {
         padding: 0;
     }
 
-    header {
-        width: 100%;
-        left: 0;
-        right: 0;
-        padding: 1rem;
-        box-sizing: border-box;
+    .container.flex {
+        flex-direction: column !important;
     }
 
-    header .main {
-        width: 100%;
-        padding: 0;
+    .container.flex > * {
+        width: 100% !important;
+        margin: 1rem 0 !important;
     }
 
-    .header {
-        width: 100%;
-        max-width: 100%;
-        box-sizing: border-box;
+    .w-1\/2, .w-1\/3, .w-2\/3 {
+        width: 100% !important;
+    }
+
+    .space-x-4 > * + * {
+        margin-left: 0 !important;
     }
 
     .main {
@@ -312,43 +317,18 @@ div.laurel {
         max-width: 100%;
         padding-left: 1rem;
         padding-right: 1rem;
-        margin: 0;
+        box-sizing: border-box;
     }
 
-    main.container {
-        width: 100%;
-        max-width: 100%;
-        padding-left: 1rem;
-        padding-right: 1rem;
-        margin: 0;
+    .text-5xl {
+        font-size: 2rem;
     }
 
-    .container.flex.justify-between.items-center.space-x-4.w-2\/3 {
-        flex-direction: column;
-        width: 90%;
+    .text-4xl {
+        font-size: 1.75rem;
     }
 
-    .container.flex.justify-between.items-center.space-x-4.w-2\/3 a {
-        width: 100%;
-        margin: 1rem 0;
-        transform: none !important;
-    }
-
-    .container.flex.justify-between.items-center.space-x-4.w-2\/3 a:hover {
-        transform: scale(1.05) !important;
-    }
-
-    .container.flex.justify-between.fade-up.mb-20.space-x-4 {
-        flex-direction: column;
-    }
-
-    .container.flex.justify-between.fade-up.mb-20.space-x-4 .w-1\/2 {
-        width: 100%;
-        margin: 1rem 0;
-    }
-
-    .container.flex.justify-between.fade-up.mb-20.space-x-4 img {
-        transform: none !important;
-        margin: 1rem 0;
+    .text-2xl {
+        font-size: 1.25rem;
     }
 }
