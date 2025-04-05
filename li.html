@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkedIn Launchpad - LinkedIn Bio</title>
+    <meta http-equiv="refresh" content="0;url=index.html?utm_campaign=li_bio&utm_source=li">
+</head>
+<body>
+    <p>Redirecting to LinkedIn Launchpad...</p>
+    <script>
+        // Get the fragment (hash) from the URL
+        const hash = window.location.hash;
+        
+        // Default parameters
+        let params = {
+            utm_source: 'li',
+            utm_campaign: 'li_bio'
+        };
+        
+        // If there's a hash (fragment) in the URL, use it as utm_campaign instead of the default
+        if (hash && hash.length > 1) {
+            // Remove the # character
+            const campaign = hash.substring(1);
+            params.utm_campaign = campaign;
+        }
+        
+        // Build the query string
+        const queryString = Object.entries(params)
+            .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+            .join('&');
+        
+        // Redirect with the query parameters
+        window.location.href = `index.html?${queryString}`;
+    </script>
+</body>
+</html> 
