@@ -54,21 +54,34 @@ document.addEventListener('DOMContentLoaded', function() {
     // Track UTM parameters
     const urlParams = new URLSearchParams(window.location.search);
     const utmCampaign = urlParams.get('utm_campaign');
+    const utmSource = urlParams.get('utm_source');
     
+    // Store UTM parameters in localStorage for cross-page tracking
     if (utmCampaign) {
         console.log('UTM Campaign:', utmCampaign);
-        
-        // Store UTM in localStorage for cross-page tracking
         localStorage.setItem('utm_campaign', utmCampaign);
-        
-        // Add UTM parameter to all CTA links
-        const ctaLinks = document.querySelectorAll('a[href*="typeform.com"]');
-        ctaLinks.forEach(link => {
-            const url = new URL(link.href);
-            url.searchParams.set('utm_campaign', utmCampaign);
-            link.href = url.toString();
-        });
     }
+    
+    if (utmSource) {
+        console.log('UTM Source:', utmSource);
+        localStorage.setItem('utm_source', utmSource);
+    }
+    
+    // Add UTM parameters to all CTA links
+    const ctaLinks = document.querySelectorAll('a[href*="typeform.com"]');
+    ctaLinks.forEach(link => {
+        const url = new URL(link.href);
+        
+        if (utmCampaign) {
+            url.searchParams.set('utm_campaign', utmCampaign);
+        }
+        
+        if (utmSource) {
+            url.searchParams.set('utm_source', utmSource);
+        }
+        
+        link.href = url.toString();
+    });
 });
 
 $(document).ready(function() {
