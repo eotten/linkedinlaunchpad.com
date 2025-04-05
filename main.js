@@ -2,56 +2,73 @@ document.addEventListener('DOMContentLoaded', function() {
     const slider = document.querySelector('.image-slider');
     
     if (slider) {
-        // Set initial position
-        slider.style.transform = 'translateX(0)';
+        // Get the first slide's width including margin
+        const slideWidth = document.querySelector('.image-slide').offsetWidth;
         
-        // Calculate total width of original slides (not including duplicates)
-        const slides = document.querySelectorAll('.image-slide');
-        let totalWidth = 0;
-        for (let i = 0; i < slides.length / 2; i++) {
-            totalWidth += slides[i].offsetWidth + parseInt(getComputedStyle(slides[i]).marginLeft) + 
-                         parseInt(getComputedStyle(slides[i]).marginRight);
-        }
+        // Calculate the full width (all slides)
+        const fullWidth = slideWidth * (document.querySelectorAll('.image-slide').length / 2);
         
-        // Create animation
-        slider.animate(
-            [
-                { transform: 'translateX(0)' },
-                { transform: `translateX(-${totalWidth}px)` }
-            ],
-            {
-                duration: 20000,
-                iterations: Infinity,
-                easing: 'linear'
+        // Animation duration (in seconds) - adjust as needed
+        const animationDuration = 30;
+        
+        slider.style.animation = `slideAnimation ${animationDuration}s linear infinite`;
+        
+        // Create the keyframes animation
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = `
+            @keyframes slideAnimation {
+                0% {
+                    transform: translateX(0);
+                }
+                100% {
+                    transform: translateX(-${fullWidth}px);
+                }
             }
-        );
-        
-        // Pause animation on hover
-        slider.addEventListener('mouseenter', () => {
-            slider.getAnimations().forEach(animation => animation.pause());
-        });
-        
-        slider.addEventListener('mouseleave', () => {
-            slider.getAnimations().forEach(animation => animation.play());
-        });
+        `;
+        document.head.appendChild(styleSheet);
     }
     
-    // FAQ functionality
+    // FAQ toggle functionality
     const faqItems = document.querySelectorAll('.faq-item');
+    
     faqItems.forEach(item => {
         const question = item.querySelector('.faq-question');
+        const answer = item.querySelector('.faq-answer');
+        const icon = item.querySelector('.faq-icon');
+        
         question.addEventListener('click', () => {
-            // Close all other FAQs
-            faqItems.forEach(otherItem => {
-                if (otherItem !== item && otherItem.classList.contains('active')) {
-                    otherItem.classList.remove('active');
-                }
-            });
-            
-            // Toggle current FAQ
+            // Toggle active class
             item.classList.toggle('active');
+            
+            // Toggle display of answer
+            if (item.classList.contains('active')) {
+                answer.style.display = 'block';
+                icon.textContent = '-';
+            } else {
+                answer.style.display = 'none';
+                icon.textContent = '+';
+            }
         });
     });
+    
+    // Track UTM parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const utmCampaign = urlParams.get('utm_campaign');
+    
+    if (utmCampaign) {
+        console.log('UTM Campaign:', utmCampaign);
+        
+        // Store UTM in localStorage for cross-page tracking
+        localStorage.setItem('utm_campaign', utmCampaign);
+        
+        // Add UTM parameter to all CTA links
+        const ctaLinks = document.querySelectorAll('a[href*="typeform.com"]');
+        ctaLinks.forEach(link => {
+            const url = new URL(link.href);
+            url.searchParams.set('utm_campaign', utmCampaign);
+            link.href = url.toString();
+        });
+    }
 });
 
 $(document).ready(function() {
